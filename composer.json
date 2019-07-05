@@ -8,6 +8,15 @@
             "email": "ry.mizuki@gmail.com"
         }
     ],
+    "scripts": {
+        "codecept": [
+            "php ./vendor/bin/codecept"
+        ],
+        "test": [
+            "codecept run unit --steps --verbose"
+        ]
+    },
     "require": {
+        "codeception/codeception": "3.0.2"
     }
 }
