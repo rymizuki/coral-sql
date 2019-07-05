@@ -1,0 +1,13 @@
+{
+    "name": "coral-sql/coral-sql",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ryo iinuma",
+            "email": "ry.mizuki@gmail.com"
+        }
+    ],
+    "require": {
+    }
+}
