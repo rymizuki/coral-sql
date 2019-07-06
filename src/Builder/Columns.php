@@ -5,16 +5,24 @@ class Columns
     private $options = [];
     private $rows = [];
 
+    /**
+     * Columns constructor.
+     *
+     * @param array $options
+     */
     public function __construct(array $options = [])
     {
         $this->options = $options;
     }
 
+
     /**
-     * add()
-     * @param string|CoralSQL\Escape\Value $field
-     * @param string|CoralSQL\Escape\Value|null $alias
-     * @return self
+     * add($field)
+     * add($field, $alias)
+     *
+     * @param $field
+     * @param $alias
+     * @return Columns
      */
     public function add($field, $alias): self
     {
@@ -24,6 +32,7 @@ class Columns
 
     /**
      * toSQL()
+     *
      * @return string
      */
     public function toSQL(): string

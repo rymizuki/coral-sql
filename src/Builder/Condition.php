@@ -7,8 +7,10 @@ class Condition
     private $expr;
 
     /**
-     * @param string|Escape\Value $field
-     * @param Expression $expr
+     * Condition constructor.
+     *
+     * @param $field
+     * @param $expr
      */
     public function __construct($field, $expr)
     {
@@ -18,6 +20,7 @@ class Condition
 
     /**
      * toSQL()
+     *
      * @return string
      */
     public function toSQL(): string
@@ -27,6 +30,7 @@ class Condition
 
     /**
      * getBindParams()
+     *
      * @return array
      */
     public function getBindParams(): array

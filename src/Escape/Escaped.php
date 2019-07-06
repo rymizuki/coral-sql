@@ -4,13 +4,16 @@ final class Escaped implements Value
 {
     private $value;
 
+    /**
+     * Escaped constructor.
+     * @param string $value
+     */
     public function __construct(string $value)
     {
         $this->value = $value;
     }
 
     /**
-     * getValue
      * @return string
      */
     public function getValue(): string

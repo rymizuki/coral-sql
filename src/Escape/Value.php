@@ -2,5 +2,8 @@
 
 interface Value
 {
+    /**
+     * @return string
+     */
     public function getValue(): string;
 }

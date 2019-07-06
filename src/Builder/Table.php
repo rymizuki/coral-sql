@@ -7,9 +7,14 @@ class Table
     protected $name;
     protected $alias;
 
+
     /**
-     * @param string|CoralSQL\Escape\EscapeValue $name
-     * @param string|CoralSQL\Escape\EscapeValue|null $alias = null
+     * Table constructor.
+     * new Table($name)
+     * new Table($name, $alias)
+     *
+     * @param $name
+     * @param null $alias
      */
     public function __construct($name, $alias = null)
     {
@@ -21,8 +26,9 @@ class Table
 
     /**
      * as($alias)
-     * @param string|CoralSQL\Escape\EscapeValue $alias
-     * @return self
+     *
+     * @param $alias
+     * @return Table
      */
     public function as($alias): self
     {
@@ -31,7 +37,6 @@ class Table
     }
 
     /**
-     * toSQL()
      * @return string
      */
     public function toSQL(): string

@@ -7,11 +7,12 @@ class Escape
 {
     /**
      * encode
-     * @param string|CoralSQL\Escape\Value $value
+     * @param string|Value $value
+     * @return Value
      */
-    public static function encode($value): ?Value
+    public static function encode($value): Value
     {
-        if ($value === null || $value instanceof Value) {
+        if ($value instanceof Value) {
             return $value;
         }
 

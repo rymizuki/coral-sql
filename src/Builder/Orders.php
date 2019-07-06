@@ -5,6 +5,10 @@ final class Orders
     private $orders;
     private $options;
 
+    /**
+     * Orders constructor.
+     * @param array $options
+     */
     public function __construct(array $options)
     {
         $this->orders = [];
@@ -12,12 +16,14 @@ final class Orders
     }
 
     /**
-     * add($field, $direction)
-     * @param string|Escape\Value $field
+     * add($field, 'asc')
+     * add($field, 'desc')
+     *
+     * @param $field
      * @param string $direction
-     * @return self
+     * @return Orders
      */
-    public function add(string $field, string $direction)
+    public function add($field, string $direction): Orders
     {
         $this->orders[] = new Order($field, $direction);
         return $this;
@@ -25,7 +31,8 @@ final class Orders
 
     /**
      * toSQL()
-     * @return self
+     *
+     * @return string
      */
     public function toSQL(): ?string
     {

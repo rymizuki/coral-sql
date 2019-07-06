@@ -16,9 +16,12 @@ class Expression
     private $value;
     private $params;
 
+
     /**
-     * @param string $operator
-     * @param mixed $value
+     * Expression constructor.
+     *
+     * @param string $operator - '=', 'in', 'not in', 'between', etc...
+     * @param $value
      */
     public function __construct(string $operator, $value)
     {
@@ -28,6 +31,7 @@ class Expression
 
     /**
      * toSQL()
+     *
      * @return string
      */
     public function toSQL(): string
@@ -53,6 +57,7 @@ class Expression
 
     /**
      * getBindParams()
+     *
      * @return array
      */
     public function getBindParams(): array

@@ -6,9 +6,12 @@ class Column
     protected $value;
     protected $alias;
 
+
     /**
-     * @param string|Escape\Value $field
-     * @param string|Escape\Value|null $alias
+     * Column constructor.
+     *
+     * @param $field
+     * @param null $alias
      */
     public function __construct($field, $alias = null)
     {
@@ -20,6 +23,7 @@ class Column
 
     /**
      * toSQL()
+     *
      * @return string;
      */
     public function toSQL(): string

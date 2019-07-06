@@ -10,6 +10,7 @@ class Conditions
 
     /**
      * hasFields()
+     *
      * @return bool
      */
     public function hasFields(): bool
@@ -17,16 +18,45 @@ class Conditions
         return count($this->rows) > 0;
     }
 
+    /**
+     * add($field, $value)
+     * add($field, $values)
+     * add($field, $operator, $value)
+     * add($condition)
+     * add($conditions)
+     *
+     * @param mixed ...$args
+     * @return Conditions
+     */
     public function and(...$args): self
     {
         return $this->add('and', ...$args);
     }
 
+    /**
+     * or($field, $value)
+     * or($field, $values)
+     * or($field, $operator, $value)
+     * or($condition)
+     * or($conditions)
+     *
+     * @param mixed ...$args
+     * @return Conditions
+     */
     public function or(...$args): self
     {
         return $this->add('or', ...$args);
     }
 
+    /**
+     * add($conjunction, $field, $value)
+     * add($conjunction, $operator, $value)
+     * add($conjunction, $instance)
+     *
+     * @param $conjunction - 'and' | 'or'
+     * @param mixed ...$args
+     * @return Conditions
+     */
     public function add($conjunction, ...$args): self
     {
         $this->rows[] = [
@@ -38,6 +68,7 @@ class Conditions
 
     /**
      * toSQL()
+     *
      * @return string
      */
     public function toSQL(): string
@@ -54,6 +85,7 @@ class Conditions
 
     /**
      * getBindParams()
+     *
      * @return array
      */
     public function getBindParams(): array

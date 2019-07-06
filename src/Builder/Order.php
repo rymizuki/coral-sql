@@ -6,11 +6,19 @@ class Order
     public const ASC = 'ASC';
     public const DESC = 'DESC';
 
+    private $field;
+    private $direction;
+
+
     /**
-     * @param string|Escape\Value $field
+     * Order constructor.
+     * new Order($field, 'asc')
+     * new Order($field, 'desc')
+     *
+     * @param $field
      * @param string $direction
      */
-    public function __construct($field, $direction)
+    public function __construct($field, string $direction)
     {
         $this->field = Escape::encode($field);
         $this->direction = $direction;
@@ -18,6 +26,7 @@ class Order
 
     /**
      * toSQL()
+     *
      * @return string
      */
     public function toSQL(): string

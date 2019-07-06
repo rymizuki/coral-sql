@@ -8,6 +8,14 @@ class Join
     private $table;
     private $condition;
 
+    /**
+     * Join constructor.
+     * new Join('left', $table, $condition)
+     * new Join('left', $table, $alias, $condition)
+     *
+     * @param $direction
+     * @param mixed ...$args
+     */
     public function __construct($direction, ...$args)
     {
         $this->direction = $this->createDirection($direction);
@@ -25,6 +33,7 @@ class Join
 
     /**
      * toSQL()
+     *
      * @return string
      */
     public function toSQL(): string
