@@ -49,11 +49,11 @@ class Expression
             $this->addBindParam($this->value[0]);
             $this->addBindParam($this->value[1]);
             return sprintf('%s ? AND ?', $this->operator);
-        } else {
-            $this->addBindParam($this->value);
-            return $this->operator . ' ?';
         }
-    }
+
+        $this->addBindParam($this->value);
+        return $this->operator . ' ?';
+}
 
     /**
      * getBindParams()
