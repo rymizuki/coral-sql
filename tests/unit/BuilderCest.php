@@ -412,7 +412,7 @@ SQL;
         $I->assertEquals($params, []);
     }
 
-    public function specify_tabl_instancce_with_alias_to_left_join(UnitTester $I)
+    public function specify_table_instance_with_alias_to_left_join(UnitTester $I)
     {
         $login = new Table('user_login', 'login');
 
@@ -435,5 +435,36 @@ LEFT JOIN `user_login` AS `ll` ON user.id = ll.user_id
 SQL;
         $I->assertEquals($sql, $expectation);
         $I->assertEquals($params, []);
+    }
+
+    public function specify_sub_query_in_condition(UnitTester $I)
+    {
+        $login = (new Builder())
+            ->column(Builder::unescape('COUNT(*)'), 'amount')
+            ->from('user_login', 'login')
+            ->where('created_at', '>', '2019-07-06 00:00:00')
+            ;
+
+        $builder = (new Builder());
+        $builder
+            ->from('user')
+            ->where($login, '>', 10)
+            ;
+        $sql = $builder->toSQL();
+        $params = $builder->getBindParams();
+
+        $expectation = <<<SQL
+SELECT
+    *
+FROM
+    `user`
+WHERE
+    ((SELECT     COUNT(*) AS `amount` FROM     `user_login` AS `login` WHERE     (`created_at` > ?)) > ?)
+SQL;
+        $I->assertEquals($sql, $expectation);
+        $I->assertEquals($params, [
+            [ 'value' => '2019-07-06 00:00:00', 'dataType' => PDO::PARAM_STR] ,
+            [ 'value' => 10, 'dataType' => PDO::PARAM_INT] ,
+        ]);
     }
 }

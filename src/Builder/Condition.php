@@ -1,5 +1,6 @@
 <?php namespace CoralSQL\Builder;
 use CoralSQL\Escape;
+use CoralSQL\Escape\Builded;
 
 class Condition
 {
@@ -35,6 +36,7 @@ class Condition
      */
     public function getBindParams(): array
     {
-        return $this->expr->getBindParams();
+        $params = $this->field instanceof Builded ? $this->field->getBindParams() : [];
+        return array_merge($params, $this->expr->getBindParams());
     }
 }

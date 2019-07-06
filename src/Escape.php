@@ -1,7 +1,9 @@
 <?php namespace CoralSQL;
 
+use CoralSQL\Builder;
 use CoralSQL\Escape\Value;
 use CoralSQL\Escape\Escaped;
+use CoralSQL\Escape\Builded;
 
 class Escape
 {
@@ -14,6 +16,9 @@ class Escape
     {
         if ($value instanceof Value) {
             return $value;
+        }
+        if ($value instanceof Builder) {
+            return new Builded($value);
         }
 
         $values = explode('.', $value);

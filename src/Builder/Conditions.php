@@ -118,7 +118,7 @@ class Conditions
             return new Condition($args[0], new Expression($operator, $args[1]));
         } 
         if (count($args) === 3) {
-            return new condition($args[0], new Expression($args[1], $args[2]));
+            return new Condition($args[0], new Expression($args[1], $args[2]));
         }
         // ARIENAI
         throw new Exception();
