@@ -27,6 +27,7 @@
         }
     },
     "require-dev": {
-        "codeception/codeception": "3.0.2"
+        "codeception/codeception": "3.0.2",
+        "codacy/coverage": "^1.4"
     }
 }
