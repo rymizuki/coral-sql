@@ -16,6 +16,11 @@
             "codecept run unit --steps --verbose"
         ]
     },
+    "autoload": {
+        "psr-4": {
+            "CoralSQL\\": "src/"
+        }
+    },
     "require": {
         "codeception/codeception": "3.0.2"
     }
