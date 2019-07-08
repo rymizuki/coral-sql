@@ -123,10 +123,10 @@ class Builder
             $this->columns->toSQL(),
             'FROM',
             $indent . $this->table->toSQL(),
-            $this->conditions->hasFields() ? sprintf("WHERE\n${indent}%s", $this->conditions->toSQL()) : null,
             join("\n", array_map(function ($join) {
                 return $join->toSQL();
             }, $this->joins)),
+            $this->conditions->hasFields() ? sprintf("WHERE\n${indent}%s", $this->conditions->toSQL()) : null,
             $this->orders->toSQL(),
         ], function ($row) {
             return $row;
