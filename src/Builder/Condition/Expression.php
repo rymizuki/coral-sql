@@ -12,6 +12,7 @@ class Expression
     public const IS_NULL = 'IS NULL';
     public const IS_NOT_NULL = 'IS NOT NULL';
     public const BETWEEN = 'BETWEEN';
+    public const REGEXP = 'REGEXP';
 
     private $operator;
     private $value;
@@ -96,6 +97,7 @@ class Expression
             case 'is null': return self::IS_NULL;
             case 'is not null': return self::IS_NOT_NULL;
             case 'between': return self::BETWEEN;
+            case 'regexp': return self::REGEXP;
             default: return $op;
         }
     }
