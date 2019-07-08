@@ -1,6 +1,7 @@
 <?php namespace CoralSQL\Builder\Condition;
 
 use CoralSQL\DataType;
+use CoralSQL\Escape\Unescaped;
 
 class Expression
 {
@@ -39,20 +40,21 @@ class Expression
         $this->params = [];
 
         if ($this->operator === self::IN || $this->operator === self::NOT_IN) {
-            $placeholders = [];
+            $values = [];
             foreach ($this->value as $value) {
-                $this->addBindParam($value);
-                $placeholders[] = '?';
+                $values[] = $this->handleBindParam($value);
             }
-            return sprintf('%s (%s)', $this->operator, join(',', $placeholders));
+            return sprintf('%s (%s)', $this->operator, join(',', $values));
         } else if ($this->operator === self::BETWEEN) {
-            $this->addBindParam($this->value[0]);
-            $this->addBindParam($this->value[1]);
-            return sprintf('%s ? AND ?', $this->operator);
+            return sprintf(
+                '%s %s AND %s',
+                $this->operator,
+                $this->handleBindParam($this->value[0]),
+                $this->handleBindParam($this->value[1])
+            );
         }
 
-        $this->addBindParam($this->value);
-        return $this->operator . ' ?';
+        return $this->operator . ' ' . $this->handleBindParam($this->value);
 }
 
     /**
@@ -63,6 +65,16 @@ class Expression
     public function getBindParams(): array
     {
         return $this->params;
+    }
+
+    private function handleBindParam($value): string
+    {
+        if ($value instanceof Unescaped) {
+            return $value->getValue();
+        }
+
+        $this->addBindParam($value);
+        return '?';
     }
 
     private function addBindParam($value): self
