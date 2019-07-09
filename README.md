@@ -1,6 +1,6 @@
 # CoralSQL
 
-[![Build Status](https://travis-ci.org/rymizuki/CoralSQL.svg?branch=master)](https://travis-ci.org/rymizuki/CoralSQL)
+[![Build Status](https://travis-ci.org/rymizuki/coral-sql.svg?branch=master)](https://travis-ci.org/rymizuki/coral-sql)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/203554ef8b6f450fbdd0c970f8e4199f)](https://www.codacy.com/app/ry-mizuki/CoralSQL?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rymizuki/CoralSQL&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/203554ef8b6f450fbdd0c970f8e4199f)](https://www.codacy.com/app/ry-mizuki/CoralSQL?utm_source=github.com&utm_medium=referral&utm_content=rymizuki/CoralSQL&utm_campaign=Badge_Coverage)
 
