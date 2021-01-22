@@ -606,6 +606,19 @@ OFFSET 10
 SQL;
         expect($I, $builder, $sql, []);
     }
+
+    public function specific_select(UnitTester $I)
+    {
+        $builder = (new Builder)->select('SELECT id FROM user')->where('id', 1);
+        $sql = <<<SQL
+SELECT id FROM user
+WHERE
+    (`id` = ?)
+SQL;
+        expect($I, $builder, $sql, [
+            ['value' => 1, 'dataType' => PDO::PARAM_INT],
+        ]);
+    }
 }
 
 
