@@ -467,4 +467,153 @@ SQL;
             [ 'value' => 10, 'dataType' => PDO::PARAM_INT] ,
         ]);
     }
+
+    public function specific_having_column_value(UnitTester $I)
+    {
+        $builder = (new Builder)
+            ->from('user')
+            ->having('age', 10)
+            ;
+        $sql = <<<SQL
+SELECT
+    *
+FROM
+    `user`
+HAVING
+    (`age` = ?)
+SQL;
+        expect($I, $builder, $sql, [
+            ['value' => 10, 'dataType' => PDO::PARAM_INT],
+        ]);
+    }
+
+    public function specific_having_column_value_list(UnitTester $I)
+    {
+        $builder = (new Builder)
+            ->from('user')
+            ->having('age', [10, 15, 20])
+            ;
+        $sql  = <<<SQL
+SELECT
+    *
+FROM
+    `user`
+HAVING
+    (`age` IN (?,?,?))
+SQL;
+        expect($I, $builder, $sql, [
+            ['value' => 10, 'dataType' => PDO::PARAM_INT],
+            ['value' => 15, 'dataType' => PDO::PARAM_INT],
+            ['value' => 20, 'dataType' => PDO::PARAM_INT],
+        ]);
+    }
+
+    public function specific_having_column_operator_value(UnitTester $I)
+    {
+        $builder = (new Builder)
+            ->from('user')
+            ->having('age', '>', 10)
+            ;
+        $sql = <<<SQL
+SELECT
+    *
+FROM
+    `user`
+HAVING
+    (`age` > ?)
+SQL;
+        expect($I, $builder, $sql, [
+            ['value' => 10, 'dataType' => PDO::PARAM_INT],
+        ]);
+    }
+
+    public function specific_having_conditions(UnitTester $I)
+    {
+        $conditions = (new Conditions())
+            ->and('age', '<', 10)
+            ->or('age', '>=', 50)
+            ;
+        $builder = (new Builder)
+            ->from('user')
+            ->having($conditions)
+            ;
+
+        $sql = <<<SQL
+SELECT
+    *
+FROM
+    `user`
+HAVING
+    ((`age` < ?) OR (`age` >= ?))
+SQL;
+
+        expect($I, $builder, $sql, [
+            ['value' => 10, 'dataType' => PDO::PARAM_INT],
+            ['value' => 50, 'dataType' => PDO::PARAM_INT],
+        ]);
+    }
+
+    public function specific_group_by_column(UnitTester $I)
+    {
+        $builder = (new Builder)->from('user')->groupBy('age');
+        $sql = <<<SQL
+SELECT
+    *
+FROM
+    `user`
+GROUP BY
+    `age`
+SQL;
+        expect($I, $builder, $sql, []);
+    }
+
+    public function specific_group_by_columns(UnitTester $I)
+    {
+        $builder = (new Builder)->from('user')->groupBy(['age', 'gender']);
+        $sql = <<<SQL
+SELECT
+    *
+FROM
+    `user`
+GROUP BY
+    `age`, `gender`
+SQL;
+        expect($I, $builder, $sql, []);
+    }
+
+    public function specific_limit(UnitTester $I)
+    {
+        $builder = (new Builder)->from('user')->limit(10);
+        $sql = <<<SQL
+SELECT
+    *
+FROM
+    `user`
+LIMIT 10
+SQL;
+        expect($I, $builder, $sql, []);
+    }
+
+    public function specific_offset(UnitTester $I)
+    {
+        $builder = (new Builder)->from('user')->offset(10);
+        $sql = <<<SQL
+SELECT
+    *
+FROM
+    `user`
+OFFSET 10
+SQL;
+        expect($I, $builder, $sql, []);
+    }
+}
+
+
+function expect(UnitTester $I, Builder $builder, string $expect_sql, array $expect_params)
+{
+    $sql = $builder->toSQL();
+    $params = $builder->getBindParams();
+
+    $I->assertEquals($sql, $expect_sql);
+    $I->assertEquals($params, $expect_params);
 }
