@@ -11,6 +11,8 @@ class DataType
             return PDO::PARAM_INT;
         } elseif (is_string($value)) {
             return PDO::PARAM_STR;
+        } elseif (is_bool($value)) {
+            return PDO::PARAM_BOOL;
         }
         throw new Exception("'${value}' is not defined data type");
     }
