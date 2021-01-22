@@ -9,7 +9,7 @@ before_script:
   - php composer.phar install --dev --prefer-source
 
 script:
-  - php composer.phar test -- --coverage --coverage-xml
+  - XDEBUG_MODE=coverage php composer.phar test -- --coverage --coverage-xml
 
 after_script:
   - php vendor/bin/codacycoverage clover tests/_output/build/coverage/xml
