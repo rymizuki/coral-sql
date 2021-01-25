@@ -250,7 +250,7 @@ class Builder
         }
         $indent = $this->indent;
         return sprintf(
-            "GROUP BY\n${indent}",
+            "GROUP BY\n${indent}%s",
             join(', ', array_map(function ($column) {
                 return "`${column}`";
             }, $this->groups))
