@@ -8,15 +8,14 @@ RUN apt-get update \
 RUN pecl install xdebug \
  && docker-php-ext-enable xdebug
 
-RUN curl -sS https://getcomposer.org/installer | php \
- && mv composer.phar /usr/local/bin/composer \
- && composer config -g repos.packagist composer https://packagist.jp \
- && composer global require hirak/prestissimo
-
 WORKDIR /usr/local/docker/app
 
 COPY ./composer.json /usr/local/docker/app
 COPY ./composer.lock /usr/local/docker/app
+
+RUN curl -sS https://getcomposer.org/installer | php \
+ && mv composer.phar /usr/local/bin/composer \
+ && composer config -g repos.packagist composer https://packagist.jp
 
 COPY ./src /usr/local/docker/app/src
 COPY ./tests /usr/local/docker/app/tests

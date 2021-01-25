@@ -1,6 +1,7 @@
-<?php namespace CoralSQL;
-use CoralSQL\Escape\Unescaped;
+<?php
+namespace CoralSQL;
 
+use CoralSQL\Escape\Unescaped;
 use CoralSQL\Builder\Table;
 use CoralSQL\Builder\Columns;
 use CoralSQL\Builder\Orders;
@@ -16,10 +17,15 @@ class Builder
     private $indent = "    ";
 
     private $table;
+    private $select;
     private $columns;
     private $conditions;
+    private $having;
+    private $groups;
     private $orders;
     private $joins = [];
+    private $limit;
+    private $offset;
 
     /**
      * Builder constructor.
@@ -33,6 +39,20 @@ class Builder
             'indent' => $this->indent,
         ]);
         $this->conditions = new Conditions();
+        $this->having = new Conditions();
+        $this->groups = [];
+    }
+
+    /**
+     * select('SELECT column FROM table')
+     *
+     * @param string $select
+     * @return self
+     */
+    public function select(string $select): self
+    {
+        $this->select = $select;
+        return $this;
     }
 
     /**
@@ -98,6 +118,34 @@ class Builder
     }
 
     /**
+     * having($filed, $value)
+     * having($filed, $values)
+     * having($conditions)
+     *
+     * @param mixed ...$args
+     * @return Builder
+     */
+    public function having(...$args): self
+    {
+        $this->having->and(...$args);
+        return $this;
+    }
+
+    /**
+     * groupBy($column)
+     * groupBy([$column, $column])
+     *
+     * @param mixed
+     * @return Builder
+     */
+    public function groupBy($columns): self
+    {
+        $columns = is_array($columns) ? $columns : [$columns];
+        $this->groups = array_merge($this->groups, $columns);
+        return $this;
+    }
+
+    /**
      * orderBy($field, 'desc')
      * orderBy($field, 'asc')
      *
@@ -112,6 +160,30 @@ class Builder
     }
 
     /**
+     * limit(1)
+     *
+     * @param integer $value
+     * @return self
+     */
+    public function limit(int $value): self
+    {
+        $this->limit = $value;
+        return $this;
+    }
+
+    /**
+     * offset(1)
+     *
+     * @param integer $value
+     * @return self
+     */
+    public function offset(int $value): self
+    {
+        $this->offset = $value;
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function toSQL(): string
@@ -119,15 +191,16 @@ class Builder
         $indent = $this->indent;
 
         $sections = array_filter([
-            'SELECT',
-            $this->columns->toSQL(),
-            'FROM',
-            $indent . $this->table->toSQL(),
+            $this->getSelect(),
             join("\n", array_map(function ($join) {
                 return $join->toSQL();
             }, $this->joins)),
             $this->conditions->hasFields() ? sprintf("WHERE\n${indent}%s", $this->conditions->toSQL()) : null,
+            $this->getGroupBy(),
+            $this->having->hasFields() ? sprintf("HAVING\n${indent}%s", $this->having->toSQL()) : null,
             $this->orders->toSQL(),
+            isset($this->limit) ? sprintf("LIMIT %s", $this->limit) : null,
+            isset($this->offset) ? sprintf("OFFSET %s", $this->offset) : null,
         ], function ($row) {
             return $row;
         });
@@ -140,7 +213,10 @@ class Builder
      */
     public function getBindParams(): array
     {
-        return $this->conditions->getBindParams();
+        return array_merge(
+            $this->conditions->getBindParams(),
+            $this->having->getBindParams()
+        );
     }
 
     /**
@@ -150,5 +226,34 @@ class Builder
     public static function unescape(string $value): Unescaped
     {
         return new Unescaped($value);
+    }
+
+    private function getSelect(): string
+    {
+        if (isset($this->select)) {
+            return $this->select;
+        }
+
+        $indent = $this->indent;
+        return join("\n", [
+            'SELECT',
+            $this->columns->toSQL(),
+            'FROM',
+            $indent . $this->table->toSQL(),
+        ]);
+    }
+
+    private function getGroupBy(): ?string
+    {
+        if (empty($this->groups)) {
+            return null;
+        }
+        $indent = $this->indent;
+        return sprintf(
+            "GROUP BY\n${indent}%s",
+            join(', ', array_map(function ($column) {
+                return "`${column}`";
+            }, $this->groups))
+        );
     }
 }
