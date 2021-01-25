@@ -196,8 +196,8 @@ class Builder
                 return $join->toSQL();
             }, $this->joins)),
             $this->conditions->hasFields() ? sprintf("WHERE\n${indent}%s", $this->conditions->toSQL()) : null,
-            $this->having->hasFields() ? sprintf("HAVING\n${indent}%s", $this->having->toSQL()) : null,
             $this->getGroupBy(),
+            $this->having->hasFields() ? sprintf("HAVING\n${indent}%s", $this->having->toSQL()) : null,
             $this->orders->toSQL(),
             isset($this->limit) ? sprintf("LIMIT %s", $this->limit) : null,
             isset($this->offset) ? sprintf("OFFSET %s", $this->offset) : null,
