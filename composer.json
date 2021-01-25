@@ -36,7 +36,10 @@
             "url": "https://packagist.org"
         }
     ],
+    "require": {
+        "codeception/codeception": "^4.1"
+    },
     "require-dev": {
-        "codeception/codeception": "4.1.15"
+        "codeception/module-asserts": "^1.3"
     }
 }
