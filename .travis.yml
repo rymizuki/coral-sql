@@ -13,6 +13,3 @@ before_script:
 
 script:
   - XDEBUG_MODE=coverage php composer.phar test -- --coverage --coverage-xml
-
-after_script:
-  - php vendor/bin/codacycoverage clover tests/_output/build/coverage/xml
