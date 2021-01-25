@@ -26,8 +26,17 @@
             "php": "7.2"
         }
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packagist.jp"
+        },
+        {
+            "type": "composer",
+            "url": "https://packagist.org"
+        }
+    ],
     "require-dev": {
-        "codeception/codeception": "3.0.2",
-        "codacy/coverage": "^1.4"
+        "codeception/codeception": "4.1.15"
     }
 }
