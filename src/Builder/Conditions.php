@@ -1,8 +1,10 @@
 <?php namespace CoralSQL\Builder;
 
-use CoralSQL\Escape;
+use Exception;
 use CoralSQL\Builder\Condition;
+use CoralSQL\Builder\Condition\ConstantExpression;
 use CoralSQL\Builder\Condition\Expression;
+use CoralSQL\Escape\ConstantValue;
 
 class Conditions
 {
@@ -114,9 +116,13 @@ class Conditions
             return $args[0];
         }
         if (count($args) === 2) {
-            $operator = is_array($args[1]) ? 'in' : '=';
-            return new Condition($args[0], new Expression($operator, $args[1]));
-        } 
+            if ($args[1] instanceof ConstantValue)  {
+                return new Condition($args[0], new ConstantExpression($args[1]));
+            } else {
+                $operator = is_array($args[1]) ? 'in' : '=';
+                return new Condition($args[0], new Expression($operator, $args[1]));
+            }
+        }
         if (count($args) === 3) {
             return new Condition($args[0], new Expression($args[1], $args[2]));
         }

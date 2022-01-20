@@ -345,6 +345,56 @@ SQL;
         ]);
     }
 
+    public function specify_condition_that_is_null(UnitTester $I)
+    {
+        $builder = (new Builder());
+        $builder
+            ->from('user')
+            ->where(
+                (new Conditions)->and('id', Builder::is_null())
+            )
+            ;
+        $sql = $builder->toSQL();
+        $params = $builder->getBindParams();
+
+        $expectation = <<<SQL
+SELECT
+    *
+FROM
+    `user`
+WHERE
+    ((`id` IS NULL))
+SQL;
+
+        $I->assertEquals($sql, $expectation);
+        $I->assertEquals($params, []);
+    }
+
+    public function specify_condition_that_is_not_null(UnitTester $I)
+    {
+        $builder = (new Builder());
+        $builder
+            ->from('user')
+            ->where(
+                (new Conditions)->and('id', Builder::is_not_null())
+            )
+            ;
+        $sql = $builder->toSQL();
+        $params = $builder->getBindParams();
+
+        $expectation = <<<SQL
+SELECT
+    *
+FROM
+    `user`
+WHERE
+    ((`id` IS NOT NULL))
+SQL;
+
+        $I->assertEquals($sql, $expectation);
+        $I->assertEquals($params, []);
+    }
+
     public function specify_table_to_left_join(UnitTester $I)
     {
         $builder = (new Builder());

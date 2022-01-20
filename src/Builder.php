@@ -7,6 +7,7 @@ use CoralSQL\Builder\Columns;
 use CoralSQL\Builder\Orders;
 use CoralSQL\Builder\Conditions;
 use CoralSQL\Builder\Join;
+use CoralSQL\Escape\ConstantValue;
 
 /**
  * Class Builder
@@ -226,6 +227,22 @@ class Builder
     public static function unescape(string $value): Unescaped
     {
         return new Unescaped($value);
+    }
+
+    /**
+     * @return ConstantValue
+     */
+    public static function is_null(): ConstantValue
+    {
+        return new ConstantValue(Builder\Condition\ConstantExpression::IS_NULL);
+    }
+
+    /**
+     * @return ConstantValue
+     */
+    public static function is_not_null(): ConstantValue
+    {
+        return new ConstantValue(Builder\Condition\ConstantExpression::IS_NOT_NULL);
     }
 
     private function getSelect(): string
