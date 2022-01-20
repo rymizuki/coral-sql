@@ -3,14 +3,12 @@
 use CoralSQL\DataType;
 use CoralSQL\Escape\Unescaped;
 
-class Expression
+class Expression implements ExpressionInterface
 {
     public const IN = 'IN';
     public const NOT_IN = 'NOT IN';
     public const LIKE = 'LIKE';
     public const NOT_LIKE = 'NOT LIKE';
-    public const IS_NULL = 'IS NULL';
-    public const IS_NOT_NULL = 'IS NOT NULL';
     public const BETWEEN = 'BETWEEN';
     public const REGEXP = 'REGEXP';
 
@@ -31,11 +29,6 @@ class Expression
         $this->value = $value;
     }
 
-    /**
-     * toSQL()
-     *
-     * @return string
-     */
     public function toSQL(): string
     {
         $this->params = [];
@@ -58,11 +51,6 @@ class Expression
         return $this->operator . ' ' . $this->handleBindParam($this->value);
 }
 
-    /**
-     * getBindParams()
-     *
-     * @return array
-     */
     public function getBindParams(): array
     {
         return $this->params;
@@ -94,8 +82,6 @@ class Expression
             case 'not in' : return self::NOT_IN;
             case 'like' : return self::LIKE;
             case 'not like': return self::NOT_LIKE;
-            case 'is null': return self::IS_NULL;
-            case 'is not null': return self::IS_NOT_NULL;
             case 'between': return self::BETWEEN;
             case 'regexp': return self::REGEXP;
             default: return $op;

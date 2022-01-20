@@ -1,13 +1,9 @@
 <?php namespace CoralSQL\Escape;
 
-final class Unescaped implements Value
+final class ConstantValue
 {
     private $value;
 
-    /**
-     * Unescaped constructor.
-     * @param string $value
-     */
     public function __construct(string $value)
     {
         $this->value = $value;
