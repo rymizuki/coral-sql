@@ -6,8 +6,8 @@ php:
   - 7.4
 
 before_script:
-  - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --dev --prefer-source
+  - curl -sS https://getcomposer.org/installer | php
+  - php composer.phar install
 
 script:
   - XDEBUG_MODE=coverage php composer.phar test -- --coverage --coverage-xml

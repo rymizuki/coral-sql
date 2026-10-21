@@ -14,8 +14,7 @@ COPY ./composer.json /usr/local/docker/app
 COPY ./composer.lock /usr/local/docker/app
 
 RUN curl -sS https://getcomposer.org/installer | php \
- && mv composer.phar /usr/local/bin/composer \
- && composer config -g repos.packagist composer https://packagist.jp
+ && mv composer.phar /usr/local/bin/composer
 
 COPY ./src /usr/local/docker/app/src
 COPY ./tests /usr/local/docker/app/tests
